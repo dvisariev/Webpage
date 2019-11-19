@@ -17,19 +17,26 @@ const particleOptions = { // downloaded - react particles for npm
     }
   }
 }
+ 
 
 class App extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      input: '',
-      route: 'showForm' //check the state of the sign in button. In this case the form will be not shown in the main page. Line 44
-    }
+      isFormOpen: false
+    };
+
+    this.userClicksCheckIn = this.userClicksCheckIn.bind(this);
   }
 
-  userClicksCheckIn = () => {
+  userClicksCheckIn () {
     console.log('clicked');
+    this.setState(prevState => {
+      return {
+        isFormOpen: !prevState.isFormOpen
+      }
+    })
   }
 
   render() {
@@ -39,12 +46,18 @@ class App extends Component {
           params={particleOptions}
         />
       {/* From SignIn*/}
-        <Navigation  userClicksCheckIn = { this.userClicksCheckIn }/>
-        {
-           this.state.route === 'showForm' ?  <Form /> : <div> <Logo /> </div> // If the user clicks on Sign in button, then the Form (from SignInForm) will show up
-        }
+        <Navigation />
+          {
+             Logo /* The Logo is shown constantly on the page */
+          }
 
-       
+        <div>
+         <button className = ' pointer f3 link dim ba bw1 ph3 pv2 mb2 dib white bg-dark-blue fr'
+                  onClick = { this.userClicksCheckIn } 
+          >Sign in</button>
+
+          { this.state.isFormOpen && Form /* The SignInForm is shown after the user clicks on the Sign in Button */ } 
+        </div>
 
        
         {
